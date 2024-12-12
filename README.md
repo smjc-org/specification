@@ -1,0 +1,2 @@
+# specification
+ SMJC Programming Specification
