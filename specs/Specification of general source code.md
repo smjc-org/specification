@@ -56,8 +56,8 @@ dm ' log; clear; output; clear; odsresult; clear; ';
    run;
    ```
 
-   > [!IMPORTANT]
-   > 如果你的程序主体和 RTF 输出部分在同一个宏程序中定义，请在宏程序内部使用注释 `/* SUBMIT START */` 和 `/* SUBMIT END */` 包围需要被递交至监管机构的代码片段。
+> [!IMPORTANT]
+> 如果你的程序主体和 RTF 输出部分在同一个宏程序中定义，请在宏程序内部使用注释 `/* SUBMIT START */` 和 `/* SUBMIT END */` 包围需要被递交至监管机构的代码片段。
 
 3. 错误检测
 
