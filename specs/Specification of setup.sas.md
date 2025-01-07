@@ -50,13 +50,14 @@ dm 'log; clear; output; clear; odsresult; clear;';
 ```
 
 > [!NOTE]
+>
 > 可根据需要，定义更多常用路径，但不能与上述定义的变量名称冲突。
 
 ## 建立逻辑库
 
 ```sas
-libname rawdata "&PATH_RAWDATA" access = readonly compress = yes;
-libname adam "PATH_ADAM" compress = yes;
+libname rawdata "&PATH_RAWDATA" compress = yes access = readonly ;
+libname adam    "&PATH_ADAM"    compress = yes;
 ```
 
 > [!IMPORTANT]
@@ -86,42 +87,20 @@ libname adam "PATH_ADAM" compress = yes;
    ```
 
 > [!NOTE]
+>
 > 可根据需要，添加更多宏程序。
 
 ## 加载模板
 
 ```sas
-%include "&PATH_INITIAL\template\template_table.sas";
+%include "&PATH_INITIAL\template\template_rtf_threelines.sas";
+%include "&PATH_INITIAL\template\template_graph_regression.sas";
+%include "&PATH_INITIAL\template\template_graph_baplot.sas";
+%include "&PATH_INITIAL\template\template_graph_waterfall.sas";
 ```
 
 > [!NOTE]
 > 可根据需要，添加更多模板。
-
-## 定义通用输出格式
-
-此处可定义一些常用的变量输出格式，例如：率（百分比）、检验统计量、P 值的输出格式。
-
-```sas
-proc format;
-    /*百分比*/
-    picture srate(round)
-            low - < -1 = '#ERROR'(noedit)
-            -1         = '-100.00'(noedit)
-            -1 < - < 0 = '-09.99'(multiplier = 10000 prefix = '-')
-            0 - < 1    = '09.99'(multiplier = 10000)
-            1          = '100.00'(noedit)
-            1 < - high = '#ERROR'(noedit);
-    /*检验统计量*/
-    picture sstat(round)
-            0          = '0.0000'(noedit)
-            0 < - high = '09.9999'
-            low - < 0  = '009.9999'(prefix = '-');
-    /*P值*/
-    picture spvalue(round  max = 6)
-        low - < 0.0001 = '<0.0001'(noedit)
-        other          = '9.9999';
-run;
-```
 
 ## 定义 ODS 输出相关变量
 
@@ -134,20 +113,24 @@ run;
 2. RTF 输出目录
 
 ```sas
-%let RTF_PATH_T = &PATH_TFL_TABLE;
-%let RTF_PATH_F = &PATH_TFL_FIGURE;
-%let RTF_PATH_L = &PATH_TFL_LISTING;
+%let PATH_TFL_TABLE   = &PATH_TFL_TABLE;
+%let PATH_TFL_FIGURE  = &PATH_TFL_FIGURE;
+%let PATH_TFL_LISTING = &PATH_TFL_LISTING;
 ```
 
 4. RTF 页眉
 
 ```sas
-%let RTF_TITLE = \pard\plain\ql\fs21{试验医疗器械：xxxxxxxx};
+%let TITLE = \pard\plain\ql\fs21{试验医疗器械：xxxxxxxx};
 ```
 
 5. RTF 页脚
 
 ```sas
-%let RTF_FOOTER_L = Confidential Information;
-%let RTF_FOOTER_R = &ODS_ESCAPECHAR{pageof};
+%let FOOTNOTE_LEFT  = Confidential Information;
+%let FOOTNOTE_RIGHT = &ODS_ESCAPECHAR{pageof};
 ```
+
+> [!TIP]
+>
+> 也可以通过 `%sysfunc(inputc(&SYSODSESCAPECHAR, $hex.))` 获得当前环境设置的 `ODS ESCAPECHAR` 的值。
