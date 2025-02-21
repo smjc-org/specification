@@ -30,23 +30,23 @@ dm 'log; clear; output; clear; odsresult; clear;';
 动态获取 `setup.sas` 文件的路径
 
 ```sas
-%let PATH_CURRENT = %sysget(SAS_EXECFILEPATH);
+%let DIR_CURRENT = %sysget(SAS_EXECFILEPATH);
 ```
 
 设置常用文件夹路径
 
 ```sas
-%let PATH_PROJECT     = %substr(&PATH_CURRENT, 1, %eval(%index(&PATH_CURRENT, %scan(&PATH_CURRENT, -3, \/)) -2));
-%let PATH_STAT        = &PATH_PROJECT\04 统计分析;
-%let PATH_RAWDATA     = &PATH_STAT\02 原始数据;
-%let PATH_ADAM        = &PATH_STAT\03 分析数据;
-%let PATH_TFL         = &PATH_STAT\06 TFL;
-%let PATH_TFL_TABLE   = &PATH_TFL\01 table;
-%let PATH_TFL_FIGURE  = &PATH_TFL\02 figure;
-%let PATH_TFL_LISTING = &PATH_TFL\03 listing;
-%let PATH_TFL_OTHER   = &PATH_TFL\04 other;
-%let PATH_MACRO       = &PATH_STAT\09 Macro;
-%let PATH_INITIAL     = &PATH_STAT\10 Initial;
+%let DIR_PROJECT     = %substr(&DIR_CURRENT, 1, %eval(%index(&DIR_CURRENT, %scan(&DIR_CURRENT, -3, \/)) -2));
+%let DIR_STAT        = &DIR_PROJECT\04 统计分析;
+%let DIR_RAWDATA     = &DIR_STAT\02 原始数据;
+%let DIR_ADAM        = &DIR_STAT\03 分析数据;
+%let DIR_TFL         = &DIR_STAT\06 TFL;
+%let DIR_TFL_TABLE   = &DIR_TFL\01 table;
+%let DIR_TFL_FIGURE  = &DIR_TFL\02 figure;
+%let DIR_TFL_LISTING = &DIR_TFL\03 listing;
+%let DIR_TFL_OTHER   = &DIR_TFL\04 other;
+%let DIR_MACRO       = &DIR_STAT\09 Macro;
+%let DIR_INITIAL     = &DIR_STAT\10 Initial;
 ```
 
 > [!NOTE]
@@ -56,8 +56,8 @@ dm 'log; clear; output; clear; odsresult; clear;';
 ## 建立逻辑库
 
 ```sas
-libname rawdata "&PATH_RAWDATA" compress = yes access = readonly;
-libname adam    "&PATH_ADAM"    compress = yes;
+libname rawdata "&DIR_RAWDATA" compress = yes access = readonly;
+libname adam    "&DIR_ADAM"    compress = yes;
 ```
 
 > [!IMPORTANT]
@@ -68,22 +68,22 @@ libname adam    "&PATH_ADAM"    compress = yes;
 1. QC 相关的宏程序
 
    ```sas
-   %include "&PATH_MACRO\02 QC\Transcode.sas";
-   %include "&PATH_MACRO\02 QC\ReadRTF.sas";
-   %include "&PATH_MACRO\02 QC\CompareRTFWithDataset.sas";
+   %include "&DIR_MACRO\02 QC\Transcode.sas";
+   %include "&DIR_MACRO\02 QC\ReadRTF.sas";
+   %include "&DIR_MACRO\02 QC\CompareRTFWithDataset.sas";
    ```
 
 2. 日志相关的宏程序
 
    ```sas
-   %include "&PATH_MACRO\03 Misc\SM_LOG_V2.sas";
-   %include "&PATH_MACRO\03 Misc\ERROR.sas";
+   %include "&DIR_MACRO\03 Misc\SM_LOG_V2.sas";
+   %include "&DIR_MACRO\03 Misc\ERROR.sas";
    ```
 
 3. RTF 处理相关的宏程序
 
    ```sas
-   %include "&PATH_MACRO\03 Misc\MergeRTF.sas";
+   %include "&DIR_MACRO\03 Misc\MergeRTF.sas";
    ```
 
 > [!NOTE]
@@ -93,10 +93,10 @@ libname adam    "&PATH_ADAM"    compress = yes;
 ## 加载模板
 
 ```sas
-%include "&PATH_INITIAL\template\template_rtf_threelines.sas";
-%include "&PATH_INITIAL\template\template_graph_regression.sas";
-%include "&PATH_INITIAL\template\template_graph_baplot.sas";
-%include "&PATH_INITIAL\template\template_graph_waterfall.sas";
+%include "&DIR_INITIAL\template\template_rtf_threelines.sas";
+%include "&DIR_INITIAL\template\template_graph_regression.sas";
+%include "&DIR_INITIAL\template\template_graph_baplot.sas";
+%include "&DIR_INITIAL\template\template_graph_waterfall.sas";
 ```
 
 > [!NOTE]
@@ -107,10 +107,10 @@ libname adam    "&PATH_ADAM"    compress = yes;
 1. 定义 RTF 输出目录
 
 ```sas
-%let RTF_PATH_T = &PATH_TFL_TABLE;
-%let RTF_PATH_F = &PATH_TFL_FIGURE;
-%let RTF_PATH_L = &PATH_TFL_LISTING;
-%let RTF_PATH_O = &PATH_TFL_OTHER;
+%let RTF_DIR_T = &DIR_TFL_TABLE;
+%let RTF_DIR_F = &DIR_TFL_FIGURE;
+%let RTF_DIR_L = &DIR_TFL_LISTING;
+%let RTF_DIR_O = &DIR_TFL_OTHER;
 ```
 
 2. 定义 ODS 转义字符
@@ -148,51 +148,51 @@ dm 'log; clear; output; clear; odsresult; clear;';
 
 
 /*STEP1 : Set the path*/
-%let PATH_CURRENT = %sysget(SAS_EXECFILEPATH);
+%let DIR_CURRENT = %sysget(SAS_EXECFILEPATH);
 
 /*设置常用文件夹路径*/
-%let PATH_PROJECT     = %substr(&PATH_CURRENT, 1, %eval(%index(&PATH_CURRENT, %scan(&PATH_CURRENT, -3, \/)) -2));
-%let PATH_STAT        = &PATH_PROJECT\04 统计分析;
-%let PATH_RAWDATA     = &PATH_STAT\02 原始数据;
-%let PATH_ADAM        = &PATH_STAT\03 分析数据;
-%let PATH_TFL         = &PATH_STAT\06 TFL;
-%let PATH_TFL_TABLE   = &PATH_TFL\01 table;
-%let PATH_TFL_FIGURE  = &PATH_TFL\02 figure;
-%let PATH_TFL_LISTING = &PATH_TFL\03 listing;
-%let PATH_TFL_OTHER   = &PATH_TFL\04 other;
-%let PATH_MACRO       = &PATH_STAT\09 Macro;
-%let PATH_INITIAL     = &PATH_STAT\10 Initial;
+%let DIR_PROJECT     = %substr(&DIR_CURRENT, 1, %eval(%index(&DIR_CURRENT, %scan(&DIR_CURRENT, -3, \/)) -2));
+%let DIR_STAT        = &DIR_PROJECT\04 统计分析;
+%let DIR_RAWDATA     = &DIR_STAT\02 原始数据;
+%let DIR_ADAM        = &DIR_STAT\03 分析数据;
+%let DIR_TFL         = &DIR_STAT\06 TFL;
+%let DIR_TFL_TABLE   = &DIR_TFL\01 table;
+%let DIR_TFL_FIGURE  = &DIR_TFL\02 figure;
+%let DIR_TFL_LISTING = &DIR_TFL\03 listing;
+%let DIR_TFL_OTHER   = &DIR_TFL\04 other;
+%let DIR_MACRO       = &DIR_STAT\09 Macro;
+%let DIR_INITIAL     = &DIR_STAT\10 Initial;
 
 
 /*STEP2 : Establish Logical Library*/
-libname rawdata "&PATH_RAWDATA" compress = yes access = readonly;
-libname adam    "&PATH_ADAM"    compress = yes;
+libname rawdata "&DIR_RAWDATA" compress = yes access = readonly;
+libname adam    "&DIR_ADAM"    compress = yes;
 
 
 /*STEP3 : Call Macro*/
 /*QC相关的宏程序*/
-%include "&PATH_MACRO\02 QC\Transcode.sas";
-%include "&PATH_MACRO\02 QC\ReadRTF.sas";
-%include "&PATH_MACRO\02 QC\CompareRTFWithDataset.sas";
+%include "&DIR_MACRO\02 QC\Transcode.sas";
+%include "&DIR_MACRO\02 QC\ReadRTF.sas";
+%include "&DIR_MACRO\02 QC\CompareRTFWithDataset.sas";
 
 /*日志相关的宏程序*/
-%include "&PATH_MACRO\03 Misc\SM_LOG_V2.sas";
-%include "&PATH_MACRO\03 Misc\ERROR.sas";
+%include "&DIR_MACRO\03 Misc\SM_LOG_V2.sas";
+%include "&DIR_MACRO\03 Misc\ERROR.sas";
 
 /*其他宏程序*/
-%include "&PATH_MACRO\03 Misc\MergeRTF.sas";
+%include "&DIR_MACRO\03 Misc\MergeRTF.sas";
 
 
 /*STEP4 : Call Style*/
-%include "&PATH_INITIAL\template\tagsets_template.sas";
+%include "&DIR_INITIAL\template\tagsets_template.sas";
 
 
 /*STEP5 : Configure RTF Output*/
 /*定义 RTF 输出目录*/
-%let RTF_PATH_T = &PATH_TFL_TABLE;
-%let RTF_PATH_F = &PATH_TFL_FIGURE;
-%let RTF_PATH_L = &PATH_TFL_LISTING;
-%let RTF_PATH_O = &PATH_TFL_OTHER;
+%let RTF_DIR_T = &DIR_TFL_TABLE;
+%let RTF_DIR_F = &DIR_TFL_FIGURE;
+%let RTF_DIR_L = &DIR_TFL_LISTING;
+%let RTF_DIR_O = &DIR_TFL_OTHER;
 
 /*定义 ODS 转义字符*/
 %let ODS_ESCAPECHAR = @;
