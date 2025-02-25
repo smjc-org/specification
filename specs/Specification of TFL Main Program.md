@@ -131,7 +131,7 @@ run;
    /*启动 ODS（无需更改此段程序）*/
    options nodate nonumber orientation = landscape;
    ods html close;
-   ods rtf file = "&rtf_path" style = styles.threelines;
+   ods rtf file = "&rtf_path" style = styles.tagrtf;
 
    /*设置页眉页脚*/
    title    j = l "&RTF_TITLE";
