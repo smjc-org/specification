@@ -134,8 +134,8 @@ run;
    ods rtf file = "&rtf_path" style = styles.threelines;
 
    /*设置页眉页脚*/
-   title    j = l "&logo" j = r "&title";
-   footnote j = l "&footnote_left" j = r "&footnote_right";
+   title    j = l "&RTF_TITLE";
+   footnote j = l "&RTF_FOOTER_L" j = r "&RTF_FOOTER_R";
 
    /*======空集输出(无需更改此段程序)======*/
    %if &is_empty = Y %then %do;
