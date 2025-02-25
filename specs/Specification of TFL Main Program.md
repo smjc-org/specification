@@ -80,6 +80,17 @@ proc sql noprint;
 quit;
 ```
 
+### 创建输出数据集（Figure 不适用）
+
+整理合并程序运行结果，为 ODS 输出 RTF 文件做准备。
+
+```sas
+data t_6_1_6;
+    length item value $200;
+    set t_6_1_6_part1 - t_6_1_6_part7;
+run;
+```
+
 ## 程序尾部
 
 程序尾部包括：
