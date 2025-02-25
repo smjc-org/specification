@@ -132,7 +132,6 @@ run;
    options nodate nonumber orientation = landscape;
    ods html close;
    ods rtf file = "&rtf_path" style = styles.threelines;
-   ods escapechar = "@";
 
    /*设置页眉页脚*/
    title    j = l "&logo" j = r "&title";
