@@ -1,5 +1,8 @@
 # Specification of TFL Main Program
 
+- 创建日期：2025-02-25
+- 更新日期：2025-02-25
+
 本文规定了 TFL 主程序文件的一般规范。
 
 ## 程序头部

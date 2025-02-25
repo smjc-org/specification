@@ -1,4 +1,7 @@
-# Specification of header comment
+# Specification of Header Comment
+
+- 创建日期：2025-02-25
+- 更新日期：2025-02-25
 
 本文件规定了程序文件头部注释的一般规范。
 
