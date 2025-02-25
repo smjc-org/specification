@@ -1,4 +1,7 @@
-# Specification of setup.sas
+# Specification of Setup
+
+- 创建日期：2024-12-12
+- 更新日期：2024-12-12
 
 本文件规定了 `setup.sas` 文件的一般规范。
 
