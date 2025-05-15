@@ -42,6 +42,7 @@ proc sql noprint;
         select
             a.usubjid,
             a.site,
+            a.siteid,
             a.arm,
             a.armn,
             b0.base as base,
@@ -58,9 +59,9 @@ quit;
 
 /*FCS 方法多重填补*/
 proc mi data = analysis out = mi_out nimpute = 5 minimum = . 0 0 0 0 maximum = . 100 100 100 100 round = .  1 1 1 1;
-    class arm site;
-    var arm site base aval1 aval3 aval6;
-    fcs reg(aval6 = arm site base aval1 aval3);
+    class arm siteid;
+    var arm siteid base aval1 aval3 aval6;
+    fcs reg(aval6 = arm siteid base aval1 aval3);
 run;
 
 data mi_out;
@@ -72,8 +73,8 @@ run;
 /*用填补数据建模*/
 ods output LSMeans = LSMeans Estimates = Estimates;
 proc glm data = mi_out plots=none;
-    class arm site;
-    model chg = arm site;
+    class arm siteid;
+    model chg = arm siteid;
     lsmeans arm /cl stderr;
     estimate "试验组 vs 对照组" arm -1 1;
     by _Imputation_;
