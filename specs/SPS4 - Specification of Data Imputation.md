@@ -99,3 +99,7 @@ proc mianalyze data = Estimates;
     stderr stderr;
 run;
 ```
+
+> [!WARNING]
+>
+> 分类变量使用 `site` 和 `siteid` 可能会导致不同的结果，这是因为 `site` 的排序结果和 `siteid` 可能不一致。
