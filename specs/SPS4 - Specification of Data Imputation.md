@@ -41,6 +41,7 @@ proc sql noprint;
     create table analysis as
         select
             a.usubjid,
+            a.site,
             a.arm,
             a.armn,
             b0.base as base,
@@ -56,8 +57,8 @@ quit;
 
 /*FCS 方法多重填补*/
 proc mi data = analysis out = mi_out nimpute = 5 minimum = . 0 0 0 0 maximum = . 100 100 100 100 round = .  1 1 1 1;
-    class arm;
-    var arm base aval1 aval3 aval6;
+    class arm site;
+    var arm site base aval1 aval3 aval6;
     fcs reg(aval6 = arm base aval1 aval3);
 run;
 
