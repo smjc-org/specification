@@ -36,7 +36,7 @@
 参考代码如下：
 
 ```sas
-/*将访视数据横向排列*/
+/*将各访视数据横向排列*/
 proc sql noprint;
     create table analysis as
         select
@@ -95,6 +95,6 @@ run;
 ods output ParameterEstimates = EstimatesPE;
 proc mianalyze data = Estimates;
     modeleffects Estimate;
-    stderr StdErr;
+    stderr stderr;
 run;
 ```
