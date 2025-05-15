@@ -9,3 +9,4 @@ SMJC Programming Specification
 | [SPS1](./specs/SPS1%20-%20Specification%20of%20Setup.md)                | Specification of Setup            | Active |
 | [SPS2](./specs/SPS2%20-%20Specification%20of%20Header%20Comment.md)     | Specification of Header Comment   | Active |
 | [SPS3](./specs/SPS3%20-%20Specification%20of%20TFL%20Main%20Program.md) | Specification of TFL Main Program | Active |
+| [SPS4](./specs/SPS4%20-%20Specification%20of%20Data%20Imputation.md)    | Specification of Data Imputation  | Active |
