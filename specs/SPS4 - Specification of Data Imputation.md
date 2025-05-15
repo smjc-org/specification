@@ -47,7 +47,7 @@ proc sql noprint;
             b1.aval as aval1,
             b3.aval as aval3,
             b6.aval as aval6,
-        from adsl as a left join adrs(where = (ablfl = "Y"))            as b0 on a.usubjid = b0.usubjid
+        from adsl as a left join adrs(where = (ablfl = "Y"))           as b0 on a.usubjid = b0.usubjid
                        left join adrs(where = (avisit = "治疗后1个月")) as b1 on a.usubjid = b1.usubjid
                        left join adrs(where = (avisit = "治疗后3个月")) as b3 on a.usubjid = b3.usubjid
                        left join adrs(where = (avisit = "治疗后6个月")) as b6 on a.usubjid = b6.usubjid
