@@ -31,7 +31,7 @@
 2. 对多个完整的数据集分别建模，得到一组效应量（包含效应量和效应量的标准误）；
 3. 使用 `PROC MIANALYZE` 过程合并效应量，得到最终的结果。
 
-例如：在一个平行阳性对照、非劣效试验中，主要指标在基线、治疗后 1 个月、治疗后 3 个月、6 个月均有收集，其中 6 个月为主要指标的评价时间点，数据缺失模式为随机缺失。
+例如：在一个平行阳性对照、非劣效试验中，主要指标在基线、治疗后 1 个月、治疗后 3 个月、6 个月均有收集，其中 6 个月较基线变化值为主要指标的评价时间点，数据缺失模式为随机缺失。
 
 参考代码如下：
 
@@ -55,22 +55,30 @@ proc sql noprint;
                        ;
 quit;
 
+
 /*FCS 方法多重填补*/
 proc mi data = analysis out = mi_out nimpute = 5 minimum = . 0 0 0 0 maximum = . 100 100 100 100 round = .  1 1 1 1;
     class arm site;
     var arm site base aval1 aval3 aval6;
-    fcs reg(aval6 = arm base aval1 aval3);
+    fcs reg(aval6 = arm site base aval1 aval3);
 run;
+
+data mi_out;
+    set mi_out;
+    chg = aval6 - base;
+run;
+
 
 /*用填补数据建模*/
 ods output LSMeans = LSMeans Estimates = Estimates;
 proc glm data = mi_out plots=none;
     class arm site;
-    model aval6 = arm site;
+    model chg = arm site;
     lsmeans arm /cl stderr;
     estimate "试验组 vs 对照组" arm -1 1;
     by _Imputation_;
 quit;
+
 
 /*合并分析结果*/
 proc sort data = LSMeans;
